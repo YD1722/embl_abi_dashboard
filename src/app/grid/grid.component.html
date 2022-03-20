@@ -1,0 +1,29 @@
+<p-table
+  [value]="dataList"
+  [columns]="columnsList"
+  [paginator]="true"
+  [rowsPerPageOptions]="rowsPerPageOptions"
+  [rows]="rowsPerPage"
+  [lazy]="isLazyLoaded"
+  [totalRecords]="totalRecords"
+  (onLazyLoad)="lazyLoadData($event)"
+  (onRowSelect)="onRowSelect()"
+  [(selection)]="selectedRow"
+  selectionMode="single"
+  responsiveLayout="scroll"
+>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns">
+        {{ col.display_name }}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-gridRowData let-gridColumns="columns">
+    <tr (dblclick)="rowDoubleClick(gridRowData)">
+      <td *ngFor="let col of gridColumns">
+        {{ gridRowData[col.mapping_name] }}
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

@@ -1,0 +1,14 @@
+<div>
+  <div>
+    <app-grid
+      [columnsList]="columnsList"
+      [rowsPerPageOptions]="rowsPerPageOptions"
+      [rowsPerPage]="rowsPerPage"
+      [isLazyLoaded]="true"
+      [dataList]="activityList"
+      [totalRecords]="totalRecords"
+      (onLazyLoadData)="lazyLoadGridData($event)"
+    ></app-grid>
+  </div>
+  <button (click)="close()">close</button>
+</div>
