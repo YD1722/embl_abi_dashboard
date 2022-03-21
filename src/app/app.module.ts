@@ -3,7 +3,7 @@ import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MoleculeListComponent} from './molecule-list/molecule-list.component';
+import {MoleculeListComponent} from './molecule/molecule-list/molecule-list.component';
 import {TableModule} from 'primeng/table';
 import {HttpClientModule} from '@angular/common/http';
 import {GridComponent} from './grid/grid.component';

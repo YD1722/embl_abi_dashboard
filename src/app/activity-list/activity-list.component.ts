@@ -1,6 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ActivityListService} from './activity-list.service';
+import {Molecule} from '../molecule/molecule';
+import {MoleculeImageGeneratorService} from '../common/molecule-image-generator.service';
 
 @Component({
   selector: 'app-activity-list',
@@ -16,9 +18,10 @@ export class ActivityListComponent implements OnInit {
   rowsPerPage = 5;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: Molecule,
     public dialogRef: MatDialogRef<ActivityListComponent>,
-    public activityListService: ActivityListService
+    public activityListService: ActivityListService,
+    public rdKitService: MoleculeImageGeneratorService
   ) {
     this.columnsList = [
       { mapping_name: 'type', display_name: 'Type' },
@@ -30,14 +33,13 @@ export class ActivityListComponent implements OnInit {
     ];
   }
 
-  close() {
-    this.dialogRef.close();
-  }
-
   ngOnInit(): void {
     this.moleculeId = this.data.id;
+    const moleculeStructure = this.data.structure;
 
-    if (this.moleculeId) {
+    this.loadMoleculeStructure(moleculeStructure);
+
+    if (this.moleculeId !== undefined) {
       this.getActivityList(this.moleculeId, this.rowsPerPage).subscribe(
         (values) => {
           this.activityList = values.results;
@@ -51,7 +53,7 @@ export class ActivityListComponent implements OnInit {
     let pageNumber = event.pageNumber;
     let rowsPerPage = event.rowsPerPage;
 
-    if (this.moleculeId) {
+    if (this.moleculeId !== undefined) {
       {
         this.getActivityList(
           this.moleculeId,
@@ -61,6 +63,16 @@ export class ActivityListComponent implements OnInit {
           this.activityList = values.results;
         });
       }
+    }
+  }
+
+  loadMoleculeStructure(structure: string) {
+    const svg = this.rdKitService.getSVG(structure);
+
+    // TODO: Enhance dom access
+    if (svg !== undefined) {
+      // @ts-ignore
+      document.getElementById('molecule-structure').innerHTML = svg;
     }
   }
 
@@ -74,5 +86,9 @@ export class ActivityListComponent implements OnInit {
       rowsPerPage,
       pageNumber
     );
+  }
+
+  close() {
+    this.dialogRef.close();
   }
 }
