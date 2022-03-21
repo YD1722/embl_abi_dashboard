@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { MoleculeResponse } from './MoleculeResponse';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {LazyLoadResponse} from '../utils/LazyLoadResponse';
+import {Molecule} from './molecule';
+import {Settings} from '../utils/settings';
 
 @Injectable({
   providedIn: 'root',
@@ -8,13 +10,13 @@ import { MoleculeResponse } from './MoleculeResponse';
 export class MoleculeListService {
   constructor(public http: HttpClient) {}
 
-  getMolecules(rowsPerPage = 10, pageNumber?: number) {
-    let url = `http://localhost:8000/molecules?page_size=${rowsPerPage}`;
+  getMolecules(rowsPerPage: number, pageNumber?: number) {
+    let url = `${Settings.baseUrl}/molecules?page_size=${rowsPerPage}`;
 
     if (pageNumber != null) {
       url += `&page=${pageNumber}`;
     }
 
-    return this.http.get<MoleculeResponse>(url);
+    return this.http.get<LazyLoadResponse<Molecule>>(url);
   }
 }

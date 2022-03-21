@@ -1,11 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { GridComponent } from '../grid/grid.component';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ActivityListService } from './activity-list.service';
+import {Component, Inject, OnInit} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {ActivityListService} from './activity-list.service';
 
 @Component({
   selector: 'app-activity-list',
   templateUrl: './activity-list.component.html',
+  styleUrls: ['./activity-list.component.scss'],
 })
 export class ActivityListComponent implements OnInit {
   columnsList: any[];
@@ -38,12 +38,12 @@ export class ActivityListComponent implements OnInit {
     this.moleculeId = this.data.id;
 
     if (this.moleculeId) {
-      this.activityListService
-        .getActivityList(this.moleculeId)
-        .subscribe((values) => {
+      this.getActivityList(this.moleculeId, this.rowsPerPage).subscribe(
+        (values) => {
           this.activityList = values.results;
           this.totalRecords = values.count;
-        });
+        }
+      );
     }
   }
 
@@ -53,12 +53,26 @@ export class ActivityListComponent implements OnInit {
 
     if (this.moleculeId) {
       {
-        this.activityListService
-          .getActivityList(this.moleculeId, rowsPerPage, pageNumber)
-          .subscribe((values) => {
-            this.activityList = values.results;
-          });
+        this.getActivityList(
+          this.moleculeId,
+          rowsPerPage,
+          pageNumber
+        ).subscribe((values) => {
+          this.activityList = values.results;
+        });
       }
     }
+  }
+
+  getActivityList(
+    moleculeId: number,
+    rowsPerPage: number,
+    pageNumber?: number
+  ) {
+    return this.activityListService.getActivityList(
+      moleculeId,
+      rowsPerPage,
+      pageNumber
+    );
   }
 }

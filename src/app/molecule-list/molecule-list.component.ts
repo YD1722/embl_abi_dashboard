@@ -1,33 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-import { MoleculeListService } from './molecule-list.service';
-import { Molecule } from './molecule';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivityListComponent } from '../activity-list/activity-list.component';
+import {Component, OnInit} from '@angular/core';
+import {MoleculeListService} from './molecule-list.service';
+import {Molecule} from './molecule';
+import {MatDialog} from '@angular/material/dialog';
+import {ActivityListComponent} from '../activity-list/activity-list.component';
+import {Column} from '../grid/column';
 
 @Component({
   selector: 'app-molecule-list',
   templateUrl: './molecule-list.component.html',
 })
 export class MoleculeListComponent implements OnInit {
+  DEFAULT_ROWS_PER_PAGE = 10
+
   moleculeList: Molecule[] = [];
   totalRecords = 0;
-  columnsList: any[];
+  columnsList: Column[];
 
   constructor(
     public moleculeListService: MoleculeListService,
     public dialog: MatDialog
   ) {
     this.columnsList = [
-      { mapping_name: 'name', display_name: 'Name' },
-      { mapping_name: 'max_phase', display_name: 'Max Phase' },
-      { mapping_name: 'structure', display_name: 'Structure' },
-      { mapping_name: 'inchi_key', display_name: 'Inchi Key' },
+      {mapping_name: 'name', display_name: 'Name'},
+      {mapping_name: 'max_phase', display_name: 'Max Phase'},
+      {mapping_name: 'structure', display_name: 'Structure'},
+      {mapping_name: 'inchi_key', display_name: 'InChI Key'},
     ];
   }
 
   ngOnInit(): void {
-    // TODO: Default rows per page
-    this.moleculeListService.getMolecules().subscribe((molecules) => {
+    this.moleculeListService.getMolecules(this.DEFAULT_ROWS_PER_PAGE).subscribe((molecules) => {
       this.moleculeList = molecules.results;
       this.totalRecords = molecules.count;
     });
@@ -45,12 +47,10 @@ export class MoleculeListComponent implements OnInit {
   }
 
   showActivityDetails(molecule: Molecule) {
-    console.log(molecule);
-
-    let dialogRef = this.dialog.open(ActivityListComponent, {
-      height: '600px',
+    this.dialog.open(ActivityListComponent, {
+      height: '500px',
       width: '900px',
-      data: { ...molecule },
+      data: {...molecule},
     });
   }
 }

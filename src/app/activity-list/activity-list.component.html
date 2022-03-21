@@ -1,5 +1,5 @@
 <div>
-  <div>
+  <div class="dialog-container">
     <app-grid
       [columnsList]="columnsList"
       [rowsPerPageOptions]="rowsPerPageOptions"
@@ -10,5 +10,7 @@
       (onLazyLoadData)="lazyLoadGridData($event)"
     ></app-grid>
   </div>
-  <button (click)="close()">close</button>
+  <div class="btn-container text-right">
+    <button mat-stroked-button color="warn" (click)="close()">close</button>
+  </div>
 </div>

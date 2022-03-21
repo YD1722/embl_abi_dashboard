@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ActivityListComponent } from './activity-list.component';
+import {ActivityListComponent} from './activity-list.component';
 
 describe('ActivityListComponent', () => {
   let component: ActivityListComponent;

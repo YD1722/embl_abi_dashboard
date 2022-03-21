@@ -1,21 +1,23 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { LazyLoadEvent } from 'primeng/api';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {LazyLoadEvent} from 'primeng/api';
+import {Column} from './column';
+import {GridLazyLoadEvent} from './grid-lazy-load-event';
 
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.css'],
+  styleUrls: ['./grid.component.scss'],
 })
-export class GridComponent implements OnInit {
+export class GridComponent {
   @Input() dataList: any[];
-  @Input() columnsList: any[]; // TODO fix type here
+  @Input() columnsList: Column[];
   @Input() rowsPerPageOptions: any[];
   @Input() isLazyLoaded: boolean;
   @Input() totalRecords: number;
   @Input() rowsPerPage: number;
-  @Output() rowSelectionChange = new EventEmitter();
   @Output() onRowDoubleClick = new EventEmitter();
-  @Output() onLazyLoadData = new EventEmitter();
+  @Output() onLazyLoadData: EventEmitter<GridLazyLoadEvent> =
+    new EventEmitter();
 
   selectedRow: any;
 
@@ -28,8 +30,6 @@ export class GridComponent implements OnInit {
     this.rowsPerPage = 10;
   }
 
-  ngOnInit(): void {}
-
   lazyLoadData(event: LazyLoadEvent) {
     if (event.rows != null && this.rowsPerPage !== event.rows) {
       this.rowsPerPage = event.rows;
@@ -37,7 +37,6 @@ export class GridComponent implements OnInit {
 
     if (event.first != null && event.rows != null) {
       const pageNumber = this.getPageNumber(event.first, event.rows);
-      this.lazyLoadGridData(pageNumber, event.rows);
 
       this.onLazyLoadData.emit({
         pageNumber: pageNumber,
@@ -46,18 +45,11 @@ export class GridComponent implements OnInit {
     }
   }
 
-  onRowSelect() {
-    this.rowSelectionChange.emit(this.selectedRow);
-  }
-
-  // TODO introduce common interface
-  lazyLoadGridData(pageNumber: number, rowsPerPage: number) {}
-
   rowDoubleClick(data: any) {
     this.onRowDoubleClick.emit(data);
   }
 
-  private getPageNumber(start: number, rowsPerPage: number) {
+  private getPageNumber(start: number, rowsPerPage: number): number {
     return start / rowsPerPage + 1;
   }
 }
