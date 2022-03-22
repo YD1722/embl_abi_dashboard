@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {LazyLoadEvent} from 'primeng/api';
-import {Column} from './column';
-import {GridLazyLoadEvent} from './grid-lazy-load-event';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { LazyLoadEvent } from 'primeng/api';
+import { Column } from './column';
+import { GridLazyLoadEvent } from './grid-lazy-load-event';
+import { Settings } from '../utils/settings';
 
 @Component({
   selector: 'app-grid',
@@ -27,7 +28,7 @@ export class GridComponent {
     this.isLazyLoaded = false;
     this.totalRecords = 0;
     this.rowsPerPageOptions = [10, 25, 50];
-    this.rowsPerPage = 10;
+    this.rowsPerPage = Settings.DEFAULT_ROWS_PER_PAGE;
   }
 
   lazyLoadData(event: LazyLoadEvent) {

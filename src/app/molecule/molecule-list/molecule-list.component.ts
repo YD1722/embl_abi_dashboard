@@ -11,8 +11,6 @@ import { MoleculeImageGeneratorService } from '../../common/services/molecule-im
   templateUrl: './molecule-list.component.html',
 })
 export class MoleculeListComponent implements OnInit {
-  DEFAULT_ROWS_PER_PAGE = 10;
-
   moleculeList: Molecule[] = [];
   totalRecords = 0;
   columnsList: Column[];
@@ -25,13 +23,13 @@ export class MoleculeListComponent implements OnInit {
       { mapping_name: 'name', display_name: 'Name' },
       { mapping_name: 'max_phase', display_name: 'Max Phase' },
       { mapping_name: 'structure', display_name: 'Structure' },
-      { mapping_name: 'inchi_key', display_name: 'InChI Key' },
+      { mapping_name: 'inchi_key', display_name: 'InChI' },
     ];
   }
 
   ngOnInit(): void {
     this.moleculeListService
-      .getMolecules(this.DEFAULT_ROWS_PER_PAGE)
+      .getMolecules()
       .subscribe((molecules) => {
         this.moleculeList = molecules.results;
         this.totalRecords = molecules.count;

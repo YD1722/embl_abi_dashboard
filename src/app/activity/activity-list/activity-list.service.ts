@@ -16,7 +16,7 @@ export class ActivityListService {
     rowsPerPage: number,
     pageNumber?: number
   ): Observable<LazyLoadResponse<Activity>> {
-    let url = `${Settings.baseUrl}/activity/${moleculeId}?page_size=${rowsPerPage}`;
+    let url = `${Settings.BASE_URL}/activity/${moleculeId}?page_size=${rowsPerPage}`;
 
     if (pageNumber != null) {
       url += `&page=${pageNumber}`;

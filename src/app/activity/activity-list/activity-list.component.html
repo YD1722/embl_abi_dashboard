@@ -1,20 +1,23 @@
 <div class="container">
   <!--  TODO: Move this to a separate component-->
-  <div class="molecule-container text-center">
-    <div id="molecule-structure"></div>
+  <div class="body-container">
+    <div class="molecule-container text-center">
+      <div id="molecule-structure"></div>
+    </div>
+
+    <div class="dialog-container">
+      <app-grid
+        [columnsList]="columnsList"
+        [rowsPerPageOptions]="rowsPerPageOptions"
+        [rowsPerPage]="rowsPerPage"
+        [isLazyLoaded]="true"
+        [dataList]="activityList"
+        [totalRecords]="totalRecords"
+        (onLazyLoadData)="lazyLoadGridData($event)"
+      ></app-grid>
+    </div>
   </div>
 
-  <div class="dialog-container">
-    <app-grid
-      [columnsList]="columnsList"
-      [rowsPerPageOptions]="rowsPerPageOptions"
-      [rowsPerPage]="rowsPerPage"
-      [isLazyLoaded]="true"
-      [dataList]="activityList"
-      [totalRecords]="totalRecords"
-      (onLazyLoadData)="lazyLoadGridData($event)"
-    ></app-grid>
-  </div>
   <div class="btn-container text-right">
     <button mat-stroked-button color="warn" (click)="close()">close</button>
   </div>
