@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {MoleculeListService} from './molecule-list.service';
-import {Molecule} from '../molecule';
-import {MatDialog} from '@angular/material/dialog';
-import {ActivityListComponent} from '../../activity-list/activity-list.component';
-import {Column} from '../../grid/column';
-import {MoleculeImageGeneratorService} from '../../common/service/molecule-image-generator.service';
+import { Component, OnInit } from '@angular/core';
+import { MoleculeListService } from './molecule-list.service';
+import { Molecule } from '../molecule';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivityListComponent } from '../../activity/activity-list/activity-list.component';
+import { Column } from '../../grid/column';
+import { MoleculeImageGeneratorService } from '../../common/services/molecule-image-generator.service';
 
 @Component({
   selector: 'app-molecule-list',
@@ -19,7 +19,6 @@ export class MoleculeListComponent implements OnInit {
 
   constructor(
     public moleculeListService: MoleculeListService,
-    public rdkitService: MoleculeImageGeneratorService,
     public dialog: MatDialog
   ) {
     this.columnsList = [
@@ -28,8 +27,6 @@ export class MoleculeListComponent implements OnInit {
       { mapping_name: 'structure', display_name: 'Structure' },
       { mapping_name: 'inchi_key', display_name: 'InChI Key' },
     ];
-
-    this.rdkitService.loadModule();
   }
 
   ngOnInit(): void {
@@ -54,7 +51,7 @@ export class MoleculeListComponent implements OnInit {
 
   showActivityDetails(molecule: Molecule) {
     this.dialog.open(ActivityListComponent, {
-      height: '700px',
+      height: '750px',
       width: '900px',
       data: { ...molecule },
     });

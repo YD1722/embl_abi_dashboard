@@ -1,0 +1,19 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.molecule-container {
+  padding: 5px;
+  border: solid black 1px;
+}
+
+.dialog-container {
+  padding-top: 10px;
+}
+
+.btn-container {
+  padding: 10px 10px;
+  border-radius: 2px;
+}

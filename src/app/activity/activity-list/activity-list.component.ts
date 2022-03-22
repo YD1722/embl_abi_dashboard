@@ -1,8 +1,8 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {ActivityListService} from './activity-list.service';
-import {Molecule} from '../molecule/molecule';
-import {MoleculeImageGeneratorService} from '../common/service/molecule-image-generator.service';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ActivityListService } from './activity-list.service';
+import { Molecule } from '../../molecule/molecule';
+import { MoleculeImageGeneratorService } from '../../common/services/molecule-image-generator.service';
 
 @Component({
   selector: 'app-activity-list',
@@ -21,7 +21,7 @@ export class ActivityListComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Molecule,
     public dialogRef: MatDialogRef<ActivityListComponent>,
     public activityListService: ActivityListService,
-    public rdKitService: MoleculeImageGeneratorService
+    public imageGenerationService: MoleculeImageGeneratorService
   ) {
     this.columnsList = [
       { mapping_name: 'type', display_name: 'Type' },
@@ -67,7 +67,7 @@ export class ActivityListComponent implements OnInit {
   }
 
   loadMoleculeStructure(structure: string) {
-    const svg = this.rdKitService.getSVG(structure);
+    const svg = this.imageGenerationService.getSVG(structure);
 
     // TODO: Enhance dom access
     if (svg !== undefined) {
