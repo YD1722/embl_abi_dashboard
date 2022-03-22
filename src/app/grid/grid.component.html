@@ -7,8 +7,8 @@
   [lazy]="isLazyLoaded"
   [totalRecords]="totalRecords"
   (onLazyLoad)="lazyLoadData($event)"
+  selectionMode="'single'"
   [(selection)]="selectedRow"
-  selectionMode="single"
   responsiveLayout="scroll"
 >
   <ng-template pTemplate="header" let-columns>
@@ -18,8 +18,9 @@
       </th>
     </tr>
   </ng-template>
+
   <ng-template pTemplate="body" let-gridRowData let-gridColumns="columns">
-    <tr (dblclick)="rowDoubleClick(gridRowData)">
+    <tr [pSelectableRow]="gridRowData" (dblclick)="rowDoubleClick(gridRowData)">
       <td *ngFor="let col of gridColumns">
         {{ gridRowData[col.mapping_name] }}
       </td>
