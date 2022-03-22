@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {MoleculeImageGeneratorService} from '../common/services/molecule-image-generator.service';
+import { Component, OnInit } from '@angular/core';
+import { MoleculeImageGeneratorService } from '../common/services/molecule-image-generator.service';
 
 @Component({
   selector: 'app-home',
@@ -7,8 +7,8 @@ import {MoleculeImageGeneratorService} from '../common/services/molecule-image-g
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor(public rdkitService: MoleculeImageGeneratorService) {
-    this.rdkitService.loadModule();
+  constructor(public imageGeneratorService: MoleculeImageGeneratorService) {
+    this.imageGeneratorService.loadModule();
   }
 
   ngOnInit(): void {}
