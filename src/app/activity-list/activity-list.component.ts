@@ -2,7 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ActivityListService} from './activity-list.service';
 import {Molecule} from '../molecule/molecule';
-import {MoleculeImageGeneratorService} from '../common/molecule-image-generator.service';
+import {MoleculeImageGeneratorService} from '../common/service/molecule-image-generator.service';
 
 @Component({
   selector: 'app-activity-list',

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {LazyLoadResponse} from '../utils/LazyLoadResponse';
+import {LazyLoadResponse} from '../common/LazyLoadResponse';
 import {Activity} from './activity';
 import {Observable} from 'rxjs';
 

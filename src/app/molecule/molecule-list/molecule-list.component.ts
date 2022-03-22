@@ -4,7 +4,7 @@ import {Molecule} from '../molecule';
 import {MatDialog} from '@angular/material/dialog';
 import {ActivityListComponent} from '../../activity-list/activity-list.component';
 import {Column} from '../../grid/column';
-import {MoleculeImageGeneratorService} from '../../common/molecule-image-generator.service';
+import {MoleculeImageGeneratorService} from '../../common/service/molecule-image-generator.service';
 
 @Component({
   selector: 'app-molecule-list',

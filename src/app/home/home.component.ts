@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MoleculeImageGeneratorService} from '../common/molecule-image-generator.service';
+import {MoleculeImageGeneratorService} from '../common/service/molecule-image-generator.service';
 
 @Component({
   selector: 'app-home',
