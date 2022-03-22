@@ -2,6 +2,8 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.2.
 
+App shows molecule details on a list view.  
+double-click on the molecule list row to load the activities and image relevant to the molecule.
 
 ## Start the application
 ### Development server
