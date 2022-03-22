@@ -1,0 +1,7 @@
+version: '3.3'
+services:
+  ebi-dashboard:
+    build:
+      context: .
+    ports:
+      - "4202:80"

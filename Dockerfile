@@ -6,6 +6,6 @@ RUN npm install
 COPY . /app/
 RUN npm run build
 
-FROM nginx:latest
+FROM nginx:alpine
 COPY --from=build-step /app/dist/embl_ebi_dashboard /usr/share/nginx/html
 EXPOSE 4200:80
