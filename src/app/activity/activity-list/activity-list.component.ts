@@ -17,6 +17,7 @@ export class ActivityListComponent implements OnInit {
   activityList: Activity[] = [];
   totalRecords = 0;
   moleculeId: number | undefined;
+  moleculeName: string | undefined;
   rowsPerPageOptions = [5, 10, 15];
   rowsPerPage = 5;
   isDataLoading = false;
@@ -38,10 +39,13 @@ export class ActivityListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // TODO: Move this logic to a separate parent component | molecule details and activity list
     this.moleculeId = this.data.id;
-    const moleculeStructure = this.data.structure;
+    this.moleculeName = this.data.name;
 
+    const moleculeStructure = this.data.structure;
     this.loadMoleculeStructure(moleculeStructure);
+
     this.loadActivities(this.rowsPerPage, 1);
   }
 
@@ -56,32 +60,20 @@ export class ActivityListComponent implements OnInit {
     if (this.moleculeId !== undefined) {
       this.isDataLoading = true;
 
-      this.getActivityList(this.moleculeId, rowsPerPage, pageNumber).subscribe(
-        this.getObserver()
-      );
+      this.activityListService
+        .getActivityList(this.moleculeId, rowsPerPage, pageNumber)
+        .subscribe(this.getObserver());
     }
   }
 
   loadMoleculeStructure(structure: string) {
     const svg = this.imageGenerationService.getSVG(structure);
 
-    // TODO: Enhance dom access
+    // TODO: Enhance DOM access
     if (svg !== undefined) {
       // @ts-ignore
       document.getElementById('molecule-structure').innerHTML = svg;
     }
-  }
-
-  getActivityList(
-    moleculeId: number,
-    rowsPerPage: number,
-    pageNumber?: number
-  ) {
-    return this.activityListService.getActivityList(
-      moleculeId,
-      rowsPerPage,
-      pageNumber
-    );
   }
 
   getObserver() {
