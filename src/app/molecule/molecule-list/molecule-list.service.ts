@@ -10,10 +10,7 @@ import { Settings } from '../../utils/settings';
 export class MoleculeListService {
   constructor(public http: HttpClient) {}
 
-  getMolecules(
-    rowsPerPage = Settings.DEFAULT_ROWS_PER_PAGE,
-    pageNumber?: number
-  ) {
+  getMolecules(rowsPerPage: number, pageNumber?: number) {
     let url = `${Settings.BASE_URL}/molecules?page_size=${rowsPerPage}`;
 
     if (pageNumber != null) {

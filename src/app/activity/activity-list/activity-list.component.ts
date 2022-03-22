@@ -3,6 +3,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivityListService } from './activity-list.service';
 import { Molecule } from '../../molecule/molecule';
 import { MoleculeImageGeneratorService } from '../../common/services/molecule-image-generator.service';
+import { Activity } from '../activity';
+import { Column } from '../../grid/column';
+import { LazyLoadResponse } from '../../common/LazyLoadResponse';
 
 @Component({
   selector: 'app-activity-list',
@@ -10,12 +13,13 @@ import { MoleculeImageGeneratorService } from '../../common/services/molecule-im
   styleUrls: ['./activity-list.component.scss'],
 })
 export class ActivityListComponent implements OnInit {
-  columnsList: any[];
-  activityList: any[] = [];
+  columnsList: Column[];
+  activityList: Activity[] = [];
   totalRecords = 0;
   moleculeId: number | undefined;
   rowsPerPageOptions = [5, 10, 15];
   rowsPerPage = 5;
+  isDataLoading = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Molecule,
@@ -38,31 +42,23 @@ export class ActivityListComponent implements OnInit {
     const moleculeStructure = this.data.structure;
 
     this.loadMoleculeStructure(moleculeStructure);
-
-    if (this.moleculeId !== undefined) {
-      this.getActivityList(this.moleculeId, this.rowsPerPage).subscribe(
-        (values) => {
-          this.activityList = values.results;
-          this.totalRecords = values.count;
-        }
-      );
-    }
+    this.loadActivities(this.rowsPerPage, 1);
   }
 
   lazyLoadGridData(event: any) {
     let pageNumber = event.pageNumber;
     let rowsPerPage = event.rowsPerPage;
 
+    this.loadActivities(rowsPerPage, pageNumber);
+  }
+
+  loadActivities(rowsPerPage: number, pageNumber: number) {
     if (this.moleculeId !== undefined) {
-      {
-        this.getActivityList(
-          this.moleculeId,
-          rowsPerPage,
-          pageNumber
-        ).subscribe((values) => {
-          this.activityList = values.results;
-        });
-      }
+      this.isDataLoading = true;
+
+      this.getActivityList(this.moleculeId, rowsPerPage, pageNumber).subscribe(
+        this.getObserver()
+      );
     }
   }
 
@@ -86,6 +82,23 @@ export class ActivityListComponent implements OnInit {
       rowsPerPage,
       pageNumber
     );
+  }
+
+  getObserver() {
+    const observer = {
+      next: (response: LazyLoadResponse<Activity>) => {
+        this.activityList = response.results;
+        this.totalRecords = response.count;
+      },
+      error: () => {
+        console.log('Error in loading activities');
+      },
+      complete: () => {
+        this.isDataLoading = false;
+      },
+    };
+
+    return observer;
   }
 
   close() {

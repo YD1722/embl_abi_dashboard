@@ -5,6 +5,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivityListComponent } from '../../activity/activity-list/activity-list.component';
 import { Column } from '../../grid/column';
 import { MoleculeImageGeneratorService } from '../../common/services/molecule-image-generator.service';
+import { LazyLoadResponse } from '../../common/LazyLoadResponse';
+import { Observer } from 'rxjs';
+import { Settings } from '../../utils/settings';
 
 @Component({
   selector: 'app-molecule-list',
@@ -14,6 +17,7 @@ export class MoleculeListComponent implements OnInit {
   moleculeList: Molecule[] = [];
   totalRecords = 0;
   columnsList: Column[];
+  isDataLoading = false;
 
   constructor(
     public moleculeListService: MoleculeListService,
@@ -28,23 +32,21 @@ export class MoleculeListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.moleculeListService
-      .getMolecules()
-      .subscribe((molecules) => {
-        this.moleculeList = molecules.results;
-        this.totalRecords = molecules.count;
-      });
+    this.loadMolecules(Settings.DEFAULT_ROWS_PER_PAGE, 1);
   }
 
   lazyLoadGridData(event: any) {
     let pageNumber = event.pageNumber;
     let rowsPerPage = event.rowsPerPage;
 
+    this.loadMolecules(rowsPerPage, pageNumber);
+  }
+
+  loadMolecules(rowsPerPage: number, pageNumber: number) {
+    this.isDataLoading = true;
     this.moleculeListService
       .getMolecules(rowsPerPage, pageNumber)
-      .subscribe((molecules) => {
-        this.moleculeList = molecules.results;
-      });
+      .subscribe(this.getObserver());
   }
 
   showActivityDetails(molecule: Molecule) {
@@ -53,5 +55,22 @@ export class MoleculeListComponent implements OnInit {
       width: '900px',
       data: { ...molecule },
     });
+  }
+
+  getObserver() {
+    const observer = {
+      next: (response: LazyLoadResponse<Molecule>) => {
+        this.moleculeList = response.results;
+        this.totalRecords = response.count;
+      },
+      error: () => {
+        console.log('Error in loading molecules');
+      },
+      complete: () => {
+        this.isDataLoading = false;
+      },
+    };
+
+    return observer;
   }
 }

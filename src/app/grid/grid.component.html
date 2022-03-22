@@ -4,6 +4,7 @@
   [paginator]="true"
   [rowsPerPageOptions]="rowsPerPageOptions"
   [rows]="rowsPerPage"
+  [loading]="isDataLoading"
   [lazy]="isLazyLoaded"
   [totalRecords]="totalRecords"
   (onLazyLoad)="lazyLoadData($event)"

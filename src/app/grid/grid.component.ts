@@ -14,6 +14,7 @@ export class GridComponent {
   @Input() columnsList: Column[];
   @Input() rowsPerPageOptions: any[];
   @Input() isLazyLoaded: boolean;
+  @Input() isDataLoading: boolean;
   @Input() totalRecords: number;
   @Input() rowsPerPage: number;
   @Output() onRowDoubleClick = new EventEmitter();
@@ -26,6 +27,7 @@ export class GridComponent {
     this.dataList = [];
     this.columnsList = [];
     this.isLazyLoaded = false;
+    this.isDataLoading = false;
     this.totalRecords = 0;
     this.rowsPerPageOptions = [10, 25, 50];
     this.rowsPerPage = Settings.DEFAULT_ROWS_PER_PAGE;
